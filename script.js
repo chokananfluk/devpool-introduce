@@ -74,7 +74,7 @@ const DATA = {
   contacts: [
     { label: "GitHub",   icon: "🐙", url: "https://github.com/chokananfluk" },
     { label: "Email",    icon: "✉️", url: "mailto:chokananfluk@gmail.com" },
-    { label: "Facebook", icon: "📘", url: "https://facebook.com/fluk_chok" },
+    { label: "Facebook", icon: "📘", url: "https://www.facebook.com/chokanan.kawkanlaya/" },
     { label: "Line",     icon: "💬", url: "https://line.me/R/ti/p/~flukppchok" },
     { label: "โทร",       icon: "📞", url: "tel:0634985595" },
   ],
