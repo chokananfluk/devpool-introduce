@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  DevPool 2569 · หน้าเว็บแนะนำตัว (Self-Introduction Page)
+  โครงสร้าง HTML แบบ semantic: แต่ละส่วนใช้ <section> มี id
+  เนื้อหา (ชื่อ, สกิล, ไทม์ไลน์ ฯลฯ) เติมจาก JavaScript ใน script.js
+  เพื่อให้แก้ข้อมูลที่เดียว = อัปเดตทั้งหน้า + SQL Console
+  ============================================================
+-->
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แนะนำตัว · DevPool 2569</title>
+  <meta name="description" content="หน้าเว็บแนะนำตัวสำหรับสมัคร DevPool รุ่นที่ 5 (2569)" />
+
+  <!-- ฟอนต์: Inter (อังกฤษ) + IBM Plex Sans Thai (ไทย) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- (interaction) แสงนวล ๆ ที่วิ่งตามเมาส์ -->
+  <div id="mouseGlow" aria-hidden="true"></div>
+
+  <!-- ===== แถบเมนูด้านบน ===== -->
+  <header class="nav">
+    <a href="#home" class="brand">🐾 <span id="brandName">ฟลุ๊ค</span></a>
+    <nav class="nav-links">
+      <a href="#about">เกี่ยวกับ</a>
+      <a href="#console">Console</a>
+      <a href="#skills">สกิล</a>
+      <a href="#journey">เส้นทาง</a>
+      <a href="#contact">ติดต่อ</a>
+    </nav>
+    <!-- (interaction) ปุ่มสลับธีมสว่าง/มืด -->
+    <button id="themeToggle" class="theme-toggle" aria-label="สลับธีมสว่าง/มืด" title="สลับธีม">🌙</button>
+  </header>
+
+  <main>
+    <!-- ===== Hero / แนะนำตัว ===== -->
+    <section id="home" class="hero">
+      <div class="hero-inner">
+        <div class="avatar" id="avatar" aria-hidden="true">ฟ</div>
+        <p class="hero-hi">สวัสดีครับ 👋 <span class="muted">/ Hi there</span></p>
+        <h1 class="hero-name">ผมชื่อ <span id="heroNick" class="accent">ฟลุ๊ค</span></h1>
+        <p class="hero-fullname" id="heroFullName"></p>
+        <!-- (interaction) ข้อความพิมพ์ดีดเองทีละตัว -->
+        <p class="hero-role">
+          <span class="prompt">&gt;</span>
+          <span id="typed" class="typed"></span><span class="cursor">▋</span>
+        </p>
+        <div class="hero-cta">
+          <a href="#console" class="btn btn-primary">ลองรันคำสั่งดูข้อมูลผม ⌨️</a>
+          <a href="#contact" class="btn btn-ghost">ติดต่อผม</a>
+        </div>
+        <p class="scroll-hint">เลื่อนลงเพื่อดูเส้นทางของผม ↓</p>
+      </div>
+    </section>
+
+    <!-- ===== เกี่ยวกับ ===== -->
+    <section id="about" class="section">
+      <h2 class="section-title">เกี่ยวกับผม <span class="en">/ About</span></h2>
+      <div class="about-grid">
+        <p class="about-text" id="bioTH"></p>
+        <p class="about-text en-text" id="bioEN"></p>
+      </div>
+      <ul class="hobbies" id="hobbies"></ul>
+    </section>
+
+    <!-- ===== SQL Console จำลอง ===== -->
+    <section id="console" class="section">
+      <h2 class="section-title">Resume Console <span class="en">/ ลองรันคำสั่งดูข้อมูลผม</span></h2>
+      <p class="section-sub">
+        พิมพ์คำสั่งคล้าย SQL แล้วกด Enter เพื่อดึงข้อมูลของผมขึ้นมา —
+        ลองเริ่มจาก <code>help</code> หรือ <code>SELECT * FROM resume;</code>
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">resume.db — sql console</span>
+        </div>
+        <div class="terminal-body" id="termOutput" aria-live="polite"></div>
+        <div class="terminal-input">
+          <span class="prompt">resume&gt;</span>
+          <input id="termInput" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="SELECT * FROM resume WHERE name = 'Fluk';" />
+        </div>
+      </div>
+      <p class="hint">เคล็ดลับ: ลอง <code>SELECT * FROM skills;</code> · <code>SELECT * FROM hobbies;</code> · <code>clear</code> · และมีคำสั่งลับซ่อนอยู่ 😉</p>
+    </section>
+
+    <!-- ===== สกิล (มี progress bar เลื่อนขึ้นตอน scroll) ===== -->
+    <section id="skills" class="section">
+      <h2 class="section-title">สกิล <span class="en">/ Skills</span></h2>
+      <div class="skills" id="skillList"></div>
+    </section>
+
+    <!-- ===== เส้นทาง / ไทม์ไลน์ (มีรถวิ่งตาม scroll) ===== -->
+    <section id="journey" class="section">
+      <h2 class="section-title">เส้นทางของผม <span class="en">/ My Journey</span></h2>
+      <div class="timeline" id="timeline">
+        <div class="timeline-line"></div>
+        <!-- รถจะถูกวางไว้ตรงนี้และเลื่อนตาม scroll -->
+        <div class="timeline-car" id="timelineCar" aria-hidden="true">🚗</div>
+        <div class="timeline-items" id="timelineItems"></div>
+      </div>
+    </section>
+
+    <!-- ===== ทำไมถึงอยากเข้า DevPool ===== -->
+    <section id="why" class="section">
+      <h2 class="section-title">ทำไมถึงอยากเข้า DevPool <span class="en">/ Why DevPool</span></h2>
+      <blockquote class="why-quote" id="whyText"></blockquote>
+    </section>
+
+    <!-- ===== ติดต่อ ===== -->
+    <section id="contact" class="section">
+      <h2 class="section-title">ติดต่อผม <span class="en">/ Contact</span></h2>
+      <div class="contact-links" id="contactLinks"></div>
+    </section>
+  </main>
+
+  <!-- ===== Footer + น้องหมาโกลเด้น Pukpik (Easter egg) ===== -->
+  <footer class="footer">
+    <p>สร้างด้วย ❤️ HTML + CSS + JavaScript · สำหรับสมัคร <strong>DevPool 2569</strong></p>
+    <p class="muted small">เอาเมาส์ไปวางที่น้องหมาสิ 👇</p>
+
+    <!-- น้องหมา Pukpik วาดด้วย CSS ล้วน นอนหลับอยู่ ตื่นเมื่อ hover / คลิกแล้วเห่าโฮ่ง -->
+    <div class="dog" id="dog" title="ลูบหัว Pukpik หน่อย~" tabindex="0">
+      <div class="dog-zzz">z z z</div>
+      <div class="dog-speech" id="dogSpeech">โฮ่ง! 🐾</div>
+      <div class="dog-tail"></div>
+      <div class="dog-ear left"></div>
+      <div class="dog-ear right"></div>
+      <div class="dog-body"></div>
+      <div class="dog-chest"></div>
+      <div class="dog-head"></div>
+      <div class="dog-eye left"></div>
+      <div class="dog-eye right"></div>
+      <div class="dog-muzzle">
+        <div class="dog-nose"></div>
+        <div class="dog-tongue"></div>
+      </div>
+      <div class="dog-name">Pukpik</div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
